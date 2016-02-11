@@ -7,24 +7,50 @@ var perJuiceQuantity = function(data){
     },{});
     return juiceQuantity;
 };
+
+var perDayConsumption = function(data){
+    var perDayConsumptionOfJuice = data.reduce(function(initialValue,juiceOrder) {
+        var daysInWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        var Date_data = new Date(juiceOrder["date"]);
+        var day_data = Date_data.getDay(Date_data);
+        if(!initialValue[daysInWeek[day_data]]){
+            initialValue[daysInWeek[day_data]] = juiceOrder.quantity;
+        }
+        initialValue[daysInWeek[day_data]] += juiceOrder.quantity;
+        return initialValue;
+    },{})
+    return perDayConsumptionOfJuice;
+}
+
 var give_juice_data = function(){
     $.get('give_statics',function(data){
-        var filetred_data = perJuiceQuantity(data);
-        var group_of_juice = juice_name_value(filetred_data);
-        display_bar_chart(group_of_juice);
-	});
+        // var filetred_data = perJuiceQuantity(data);
+        // var group_of_juice = juice_name_value(filetred_data);
+        // display_bar_chart(group_of_juice);
+        var perDayJuice = perDayConsumption(data);
+        var total_juice_by_day = juiceQuantityAccordingToDay(perDayJuice);
+        display_pie_chart(total_juice_by_day);
+    });
+}
+var juiceQuantityAccordingToDay = function(data){
+    var perDayJuiceQuantity = [];
+    for (var index in data) {
+        perDayJuiceQuantity.push({day:index,quantity:data[index]});
+    };
+    return perDayJuiceQuantity;
 }
 
 var juice_name_value = function(data){
-    var  final_result = []; 
-    var count = 0;
+    var  group_of_juiceName_juiceValue = []; 
     for(var index in data){
         if(index != 'CTL'){
-            final_result.push({name:index,value:data[index]});
+            group_of_juiceName_juiceValue.push({name:index,value:data[index]});
         }
     }
-    return final_result;
+    return group_of_juiceName_juiceValue;
 };
+
+
 var display_pie_chart = function(data){
         var r = 300;
         var color = d3.scale.category20c();
@@ -37,12 +63,12 @@ var display_pie_chart = function(data){
             .attr("transform","translate(500,500)");
         
         var arc = d3.svg.arc()
-            .innerRadius(0)
-            .outerRadius(700);
+            .innerRadius(100)
+            .outerRadius(200);
         
         var pie = d3.layout.pie()
             .value(function(d){
-                return d.value;
+                return d.quantity;
             }) ;
         
         var arcs = group.selectAll(".arc")
@@ -51,33 +77,34 @@ var display_pie_chart = function(data){
             .append("g")
             .attr("class","arc");
         
-
         arcs.append("path")
-            .attr("d",d3.svg.arc().innerRadius(1).outerRadius(r+100))
-            .attr("fill",function(d){return color(d.data.value);})
+            .attr("d",d3.svg.arc().innerRadius(100).outerRadius(r+100))
+            .attr("fill",function(d){return color(d.data.quantity);})
             .transition().duration(750).ease('ease-in')
             .attr("d",arc)
-            .attr("fill",function(d){return color(d.data.name);});
+            .attr("fill",function(d){return color(d.data.day);});
         
         arcs.append("text")
             .attr("transform",function(d){return "translate(" +arc.centroid(d)+ ")";})
             .attr("text-anchor","middle")
-            .attr("font-size","0.1em")
-            .text(function(d){return d.data.name;});
+            .attr("font-size","1.1em")
+            .text(function(d){return d.data.day;});
+        arcs.append("title")
+            .text(function(d) {
+                return d.data.quantity;
+            })
 }
 
 var display_bar_chart = function(data){
     var margin = {top:20,right:10,bottom:100,left:40},
-    width = 700 - margin.right - margin.left,
-    height = 500 - margin.top - margin.bottom;
+    width = 650,
+    height = 380;
     var color = d3.scale.category20c();
-
-
     var svg = d3.select('body')
         .append('svg')
         .attr({
-            "width": width + margin.right + margin.left+1500,
-            "height": height + margin.top + margin.bottom+100 
+            "width": 2200,
+            "height": 600 
         })
         .append('g')
             .attr("transform","translate("+ 50 + ',' +margin.right+')');
