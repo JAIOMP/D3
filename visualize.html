@@ -3,22 +3,11 @@
     <head>
         <meta charset="utf-8">
         <title>Reuqest Analyzer</title>
+        <script type="text/javascript" src = "./client_side_javascript/bus_data_handler.js"></script>
         <script type="text/javascript" src="./juice/d3.v3.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     </head>
     <body>
-        <div class="main"></div>
+    <button onclick="bus_data_visualization()">display_chart</button>
     </body>
-    <script>
-        d3.json('all_request_data.json', function(json){
-            var dataForWeekRepresentation = {};
-            var dataForMonthRepresentation = {};
-            console.log(json);
-            json.forEach(function(req){
-                dataForWeekRepresentation[req.time.day] = dataForWeekRepresentation[req.time.day] ? (++dataForWeekRepresentation[req.time.day]) : 1;
-                dataForMonthRepresentation[req.time.month] = dataForMonthRepresentation[req.time.month] ? (++dataForMonthRepresentation[req.time.month]) : 1;
-            });
-            console.log(JSON.stringify(dataForWeekRepresentation));
-            console.log(JSON.stringify(dataForMonthRepresentation));
-        });
-    </script>
 </html>
