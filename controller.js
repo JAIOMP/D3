@@ -13,5 +13,8 @@ app.get('/give_statics',function(req,res) {
 app.get('/give_bus_data',function(req,res){
 	res.send(bus_data);
 })
+app.get('/give_bus_data_for_month',function(req,res){
+	res.send(bus_data);
+});
 
 module.exports = app;
