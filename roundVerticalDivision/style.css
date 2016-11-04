@@ -1,0 +1,28 @@
+.container{
+    background-color: white;
+}
+
+.bars {
+    border-radius: 30px 30px 30px 30px;
+    height: 20px;
+    font-family: sans-serif;
+    border:1px solid white;
+    color: white;
+    text-align: center;
+
+}
+
+#buttonsContainer{
+    margin-left: 60px;
+    margin-top: -35px;
+}
+
+.legends{
+    display: inline-block;
+    border-radius:15px 15px 15px 15px;
+    padding: 1px;
+    width: 80px;
+    border: 1px solid white;
+    color:white;
+    text-align: center;
+}
