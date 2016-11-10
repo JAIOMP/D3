@@ -1,0 +1,16 @@
+.tabulate {
+    display: inline-block;
+    padding: 1px;
+    width: 100%;
+    /*border: 1px solid black;*/
+    color:black;
+    text-align: center;
+}
+
+td {
+    width:100px;
+    border: 0.5px solid black;
+}
+tr{
+    border: 0.5px solid black;
+}
