@@ -1,0 +1,7 @@
+.boxes{
+    display: inline-block;
+    margin-left: 6px;
+    border: solid 1px gray;
+    vertical-align: text-top;
+    padding: 10px;
+}
