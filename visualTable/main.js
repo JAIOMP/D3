@@ -5,10 +5,7 @@ var numberRange = d3.scaleLinear()
 var powerRange = d3.scalePow().exponent(2);
 
 var logRange = function(number) {
-    var range = d3.scaleLog()
-        .base(Math.E)
-        .domain([Math.exp(1), Math.exp(10)])
-        .range([1,10]);
+    var range = d3.scaleLog();
     return range(number).toFixed(2);
 }
 
