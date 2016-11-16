@@ -51,7 +51,25 @@ var generateLineChart = function(){
     svg.append("path")
         .attr("class", "path")
         .attr("d", sinValueLine(data));
-    
+
+    svg.selectAll('dot')
+        .data(data)
+        .enter().append("circle")
+        .attr("r",5)
+        .attr("cx",function(d){return x(d.x/10)})
+        .attr("cy",function(d){return y(d.y/10)})
+        .attr("stroke","steelblue")
+        .attr("fill","white");
+
+    svg.selectAll('dot')
+        .data(data)
+        .enter().append("circle")
+        .attr("r",5)
+        .attr("cx",function(d){return x(d.x/10)})
+        .attr("cy",function(d){return y((Math.sin(d.x))/10 + 0.5)})
+        .attr("stroke","steelblue")
+        .attr("fill","white");
+
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + HEIGHT + ")")
