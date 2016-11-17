@@ -1,6 +1,17 @@
 const MARGIN = 50;
-const WIDTH = 350;
+const WIDTH = 450;
 const HEIGHT = 270;
+
+var dataForCurves = [
+    {"d3Curve":d3.curveLinear,"curveTitle":"curveLinear"},
+    {"d3Curve":d3.curveLinearClosed,"curveTitle":"curveLinearClosed"},
+    {"d3Curve":d3.curveCatmullRomClosed,"curveTitle":"curveCatmullRomClosed"},
+    {"d3Curve":d3.curveStepAfter,"curveTitle":"curveStepAfter"},
+    {"d3Curve":d3.curveBasis,"curveTitle":"curveBasis"},
+    {"d3Curve":d3.curveCardinal,"curveTitle":"curveCardinal"},
+    {"d3Curve":d3.curveMonotoneX,"curveTitle":"curveMonotoneX"},
+    {"d3Curve":d3.curveCatmullRom,"curveTitle":"curveCatmullRom"}
+];
 
 var generateLineChart = function(){
     var data = [
@@ -21,13 +32,17 @@ var generateLineChart = function(){
     xAxis = d3.axisBottom().scale(x).ticks(11);
     yAxis = d3.axisLeft().scale(y).ticks(11);
 
-    var valueLine = d3.line().x(function(d){
-        return x(d.x/10);
-    }).y(function(d){
-        return y(d.y/10);
-    });
+    var line = d3.line();
 
-    var sinValueLine = d3.line().x(function(d){
+    var valueLine = d3.line()
+        .x(function(d){
+            return x(d.x/10);
+        }).y(function(d){
+            return y(d.y/10);
+        });
+
+    var sinValueLine = d3.line()
+        .x(function(d){
         return x(d.x/10);
     }).y(function(d){
         return y(Math.sin((d.x))/10 + 0.5);
@@ -44,12 +59,48 @@ var generateLineChart = function(){
     x.domain([0,1.0]);
     y.domain([0,1.0]);
 
+
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + HEIGHT + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+
+    function change() {
+        var valueLine = d3.line()
+            .x(function(d){
+                return x(d.x/10);
+            }).y(function(d){
+                return y(d.y/10);
+            }).curve(giveFunctionForTitle(this.value));
+
+        var sinValueLine = d3.line()
+            .x(function(d){
+                return x(d.x/10);
+            }).y(function(d){
+                return y(Math.sin((d.x))/10 + 0.5);
+            }).curve(giveFunctionForTitle(this.value));
+
+        svg.append("path")
+            .attr("class", "pathValue")
+            .attr("d", valueLine(data));
+
+        svg.append("path")
+            .attr("class", "pathForSinValue")
+            .attr("d", sinValueLine(data));
+    }
+
     svg.append("path")
-        .attr("class", "path")
+        .attr("class", "pathValue")
         .attr("d", valueLine(data));
 
     svg.append("path")
-        .attr("class", "path")
+        .attr("class", "pathForSinValue")
         .attr("d", sinValueLine(data));
 
     svg.selectAll('dot')
@@ -70,14 +121,24 @@ var generateLineChart = function(){
         .attr("stroke","steelblue")
         .attr("fill","white");
 
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + HEIGHT + ")")
-        .call(xAxis);
+    d3.select("#interpolate")
+        .selectAll("Button")
+        .data(dataForCurves)
+        .enter().append("Button")
+        .on("click",change)
+        .attr("value", function(d) {return d.curveTitle; })
+        .text(function(d) { return d.curveTitle; });
 
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
+};
+
+var giveFunctionForTitle = function(title){
+    var func;
+      for (var i = 0; i < dataForCurves.length; i++){
+          if(title == dataForCurves[i].curveTitle){
+             func = dataForCurves[i].d3Curve;
+          }
+      }
+    return func;
 };
 
 generateLineChart();

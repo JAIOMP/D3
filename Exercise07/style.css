@@ -1,5 +1,11 @@
-.path {
-    stroke: steelblue;
+.pathValue {
+    stroke: brown;
+    stroke-width:2px;
+    fill: none;
+}
+
+.pathForSinValue {
+    stroke: blue;
     stroke-width:2px;
     fill: none;
 }
