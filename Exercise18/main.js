@@ -4,9 +4,12 @@ var changeColor = function(){
     var div = document.querySelector("." + this.value);
     div.style.borderWidth = 3 + "px";
     div.style.borderColor = "red";
+    div.textContent = this.value == "quantile" ? d3[this.value](data,1)
+        : d3[this.value](data);
     setTimeout(function(){
         div.style.borderWidth = 1 + "px";
         div.style.borderColor = "white";
+        div.textContent = "";
     },3000);
 };
 

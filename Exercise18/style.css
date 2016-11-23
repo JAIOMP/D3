@@ -3,6 +3,7 @@
 }
 div {
     height: 30px;
+    font-size: 10px;
     background-color: steelblue;
     font-family: sans-serif;
     border:1px solid white;
