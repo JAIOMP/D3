@@ -1,0 +1,15 @@
+.container{
+    background-color: white;
+}
+div {
+    height: 30px;
+    background-color: steelblue;
+    font-family: sans-serif;
+    border:1px solid white;
+    color: white;
+}
+
+#interpolate{
+    margin-top: 225px;
+    background-color: white;
+}
