@@ -1,0 +1,28 @@
+.container{
+    text-color:black;
+    background-color: white;
+
+}
+div {
+    height: 30px;
+    /*width:250px;*/
+    font-size: 18px;
+    text-align: center;
+    background-color: steelblue;
+    font-family: sans-serif;
+    border:1px solid white;
+    /*color: white;*/
+}
+
+#interpolate{
+    margin-top: 25px;
+    background-color: white;
+}
+
+p {
+    display: inline;
+}
+
+.result {
+    color: white;
+}
